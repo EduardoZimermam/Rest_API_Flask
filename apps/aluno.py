@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import request
+from flask import request, Response
 from bson import json_util
 
 def aluno_api(app, collection):
@@ -10,9 +10,13 @@ def aluno_api(app, collection):
 		if request.method == 'POST':
 			payload = request.get_json()
 
-			collection.insert_one(payload)
+			if 'nome' in payload:
 
-			return json_util.dumps(payload)
+				collection.insert_one(payload)
+				
+				return json_util.dumps(payload)
+			else:
+				return Response('{"messageError": "Faltam campos no payload da requisição"}', status=403)
 
 
 		if request.method == 'DELETE':
@@ -26,8 +30,8 @@ def aluno_api(app, collection):
 					
 					collection.delete_one({'ra': ra, 'campus': campus})
 
-					return json_util.dumps({"status": "200", "data": "SUCESS"})
+					return Response("", status=200)
 				else:
-					return json_util.dumps({"status": "403", "data": "Documento não existente"})
+					return Response('{"data": "Documento não existe"}', status=403)
 			except KeyError:
-				return json_util.dumps({"status": "404", "data": "Parâmetros errados"})
+				return Response("", status=404)
