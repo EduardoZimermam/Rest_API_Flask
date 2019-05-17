@@ -16,4 +16,4 @@ def modalidade_api(app, collection):
 		query = {'modalidade': modalidade, 'data_inicio': {'$gte': data_inic, '$lte': data_fim}}
 
 		# Execução e retorno do resultado da query
-		return json_util.dumps(collection.find(query, {'nome': 1, 'data_inicio': 1, '_id': 0}).sort('data_inicio', 1))
+		return json_util.dumps(collection.find(query, {'_id': 0}).sort('data_inicio', -1))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import request
+from flask import request, Response
 from bson import json_util
 
 def campus_api(app, collection):
@@ -13,8 +13,12 @@ def campus_api(app, collection):
 		# Monta a query para execução
 		query = {'campus': campus}
 
+		data = collection.find(query, {'curso': 1, '_id': 0}).distinct('curso')
+
+		response = Response(json_util.dumps(dataEncoding, indent=2, encoding='utf-8'), status=200)
+
 		# Execução e retorno do resultado da query
-		return json_util.dumps(collection.find(query, {'curso': 1, '_id': 0}).distinct('curso'))
+		return response
 
 	@app.route('/campus/quantidade_alunos', methods=['GET'])
 	def quantidade_alunos_campus():
