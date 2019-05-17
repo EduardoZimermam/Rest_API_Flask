@@ -1,0 +1,199 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "API REST para o Desafio Full Stack Laura",
+    "version": "1.0.0",
+    "title": "Desafio Laura - Python Flask API REST",
+    "contact": {
+      "email": "eduardozimerman@live.com"
+    },
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Modalidade",
+      "description": "Requisições que tem como condição a modalidade dos cursos"
+    }, 
+    {
+      "name": "Aluno",
+      "description": "Requisições que tem como o aluno o objeto central"
+    },
+    {
+      "name": "Campus",
+      "description": "Requisições que buscam informações sobre os campus"
+    }
+  ],
+  "paths": {
+    "/modalidade": {
+      "get": {
+        "tags": [
+          "Modalidade"
+        ],
+        "summary": "Retorna todos os itens de uma modalidade em um período",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "modalidade",
+            "schema": {},
+            "description": "Modalidade do curso"
+          },
+          {
+            "in": "query",
+            "name": "data_inicio",
+            "schema": {},
+            "description": "Data de inicio para o filtro de periodo"
+          },
+          {
+            "in": "query",
+            "name": "data_fim",
+            "schema": {},
+            "description": "Data de fim para o filtro de periodo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+          }
+        }
+      },
+    },
+    "/campus/cursos": {
+      "get": {
+        "tags": [
+          "Campus"
+        ],
+        "summary": "Retorna todos os cursos de um campus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "campus",
+            "description": "Sigla do campus a ser filtrados todos os cursos",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/bookRequest"
+            }
+          }
+        }
+      }
+    },
+    "/campus/quantidade_alunos":{
+      "get": {
+        "tags": [
+          "Campus"
+        ],
+        "summary": "Retorna o número de alunos em um campus em um determinado período",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "campus",
+            "schema": {},
+            "description": "Sigla do campus a ser filtrado o número de alunos"
+          },
+          {
+            "in": "query",
+            "name": "data_inicio",
+            "schema": {},
+            "description": "Data de inicio para o filtro de periodo"
+          },
+          {
+            "in": "query",
+            "name": "data_fim",
+            "schema": {},
+            "description": "Data de fim para o filtro de periodo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {}
+          },
+        }
+      }
+    },
+    "/aluno":{
+      "post":{
+        "tags": [
+          "Aluno"
+        ],
+        "summary": "Cria um aluno no campus",
+        "requestBody": {
+          "description": "Aluno a ser criado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/alunoASerCriado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aluno criado"
+          },
+          "403": {
+            "description": "Faltam campos no payload"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um aluno da Base de dados",
+        "tags": [
+          "Aluno"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ra",
+            "schema": {},
+            "description": "Registro acadêmico do aluno a ser deletado"
+          },
+          {
+            "in": "query",
+            "name": "campus",
+            "type": "string",
+            "schema": {},
+            "description": "Campus ao qual o aluno a ser deletado pertence"
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletado"
+          },
+          "404": {
+            "description": "Aluno não existe"
+          },
+          "500": {
+            "description": "Erro"
+          } 
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "alunoASerCriado": {
+        "type": "object",
+        "properties": {
+          "nome": {"type": "string"},
+          "idade_ate_31_12_2016": {"type": "integer"},
+          "ra": {"type": "integer"},
+          "campus": {"type": "string"},
+          "municipio": {"type": "string"},
+          "curso": {"type": "string"},
+          "modalidade": {"type": "string"},
+          "nivel_do_curso": {"type": "string"},
+          "data_inicio": {"type": "string"}
+        }
+      },
+    }
+  }
+}
