@@ -9,4 +9,4 @@ Api simples utilizando Flask.
 
 ### Documentação
 
-- A documentação da API foi toda feita com Swagger UI, para acessar, utilize o link [0.0.0.0/5000/docs](0.0.0.0/5000/docs)
+- A documentação da API foi toda feita com Swagger UI, para acessar, utilize o link [https://0.0.0.0/5000/docs](https://0.0.0.0/5000/docs)
